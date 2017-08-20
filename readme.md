@@ -23,3 +23,11 @@ On RPI with the real PICON hat:
 ```bash
 USE_PICON=yes ./server-arm
 ```
+
+## Camera stream
+
+We also expose the raw H264 stream from the camera on the `/camera` endpoint of the API.
+
+```bash
+mplayer -fps 200 -demuxer h264es ffmpeg://http://raspberrypi.local:8080/camera
+```

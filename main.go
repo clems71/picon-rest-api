@@ -38,6 +38,7 @@ func main() {
 
 	apiBaseMount(app)
 	apiMotorMount(app)
+	apiCameraMount(app)
 
 	log.Fatal(endless.ListenAndServe("0.0.0.0:8080", app.Router))
 }
