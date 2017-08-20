@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"net/http"
 
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
@@ -37,14 +36,7 @@ func main() {
 	app.Router.Use(gin.ErrorLogger())
 	app.Router.Use(gin.Recovery())
 
-	info := app.Controller.Info()
-	app.Router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"controllerName":    info.Name,
-			"motorChannelCount": info.MotorChannelCount,
-		})
-	})
-
+	apiBaseMount(app)
 	apiMotorMount(app)
 
 	log.Fatal(endless.ListenAndServe("0.0.0.0:8080", app.Router))
