@@ -26,7 +26,7 @@ func main() {
 			log.Panicln(err)
 		}
 	} else {
-		ioController = NewFakeController("Fake controller with 2 motor channels", 2)
+		ioController = NewFakeController("Fake controller with 2 motor channels & 4 output channels", 2, 4)
 	}
 
 	app := &App{
@@ -95,6 +95,9 @@ func main() {
 		}
 		c.JSON(http.StatusOK, desc)
 	})
+
+	// Install outputs API endpoints
+	InstallOutputsAPI(*app)
 
 	log.Fatal(endless.ListenAndServe("0.0.0.0:8080", app.Router))
 }
