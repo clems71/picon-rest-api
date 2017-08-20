@@ -6,8 +6,9 @@ import (
 
 // PiconController is the RPIzero hat controller
 type PiconController struct {
-	bus    *i2c.I2C
-	motors []float32
+	bus     *i2c.I2C
+	motors  []float32
+	outputs []float32
 }
 
 // NewPiconController is the PiconController constructor
@@ -17,8 +18,9 @@ func NewPiconController() (*PiconController, error) {
 		return nil, err
 	}
 	return &PiconController{
-		bus:    bus,
-		motors: make([]float32, 2),
+		bus:     bus,
+		motors:  make([]float32, 2),
+		outputs: make([]float32, 6),
 	}, nil
 }
 
@@ -53,4 +55,25 @@ func (c *PiconController) SetMotorSpeed(channel uint, speed float32) error {
 // GetMotorSpeed returns the current speed of a motor on a given channel.
 func (c *PiconController) GetMotorSpeed(channel uint) (float32, error) {
 	return c.motors[channel], nil
+}
+
+// SetOutputValue sets output data for a given channel (6 avalaible).
+// Channel  Name    Type    Values
+// 0     	On/Off  Byte    0 is OFF, 1 is ON
+// 1     	PWM     Byte    0 to 100 percentage of ON time
+// 2     	Servo   Byte    -100 to + 100 Position in degrees
+// 3     	WS2812B 4 Bytes 0:Pixel ID, 1:Red, 2:Green, 3:Blue
+func (c *PiconController) SetOutputValue(channel uint, value float32) error {
+	outputAddress := byte(channel)
+	byteValue := byte(value)
+	if _, err := c.bus.Write([]byte{outputAddress, byteValue}); err != nil {
+		return err
+	}
+	c.outputs[channel] = value
+	return nil
+}
+
+// GetOutputValue returns the current value of an output on a given channel.
+func (c *PiconController) GetOutputValue(channel uint) (float32, error) {
+	return c.outputs[channel], nil
 }
