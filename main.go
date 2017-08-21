@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/fvbock/endless"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -35,6 +36,7 @@ func main() {
 	app.Router.Use(gin.Logger())
 	app.Router.Use(gin.ErrorLogger())
 	app.Router.Use(gin.Recovery())
+	app.Router.Use(cors.Default())
 
 	apiBaseMount(app)
 	apiMotorMount(app)

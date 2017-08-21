@@ -11,7 +11,7 @@ import (
 
 func apiCameraMount(app *App) {
 	app.Router.GET("/camera", func(c *gin.Context) {
-		raspivid := exec.Command("raspivid", "-t", "0", "-w", "640", "-h", "480", "-hf", "-ih", "-fps", "30", "-o", "-")
+		raspivid := exec.Command("raspivid", "-t", "0", "-w", "640", "-h", "480", "-fps", "30", "-o", "-", "-pf", "baseline")
 		// raspivid := exec.Command("dd", "if=/dev/urandom", "count=100000")
 		raspividOut, err := raspivid.StdoutPipe()
 
