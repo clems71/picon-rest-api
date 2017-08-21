@@ -1,0 +1,21 @@
+<html>
+
+<head>
+  <title>h264-live-player web client demo</title>
+</head>
+
+<body>
+  <!-- provide WSAvcPlayer -->
+  <script type="text/javascript" src="http-live-player.js">
+    ;
+  </script>
+  <script type="text/javascript">
+    var canvas = document.createElement("canvas");
+    document.body.appendChild(canvas);
+    var uri = "http://raspberrypi.local:8080/camera";
+    var wsavc = new WSAvcPlayer(canvas, "webgl", 1, 35);
+    wsavc.connect(uri);
+  </script>
+</body>
+
+</html>
