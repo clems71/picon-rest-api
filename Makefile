@@ -1,5 +1,5 @@
 default: desktop
-	GOOS=linux GOARCH=arm GOARM=5 go build -o server-arm
+	GOOS=linux GOARCH=arm GOARM=5 go build -v -o server-arm
 
 desktop:
-	go build -o server
+	go build -v -o server

@@ -9,10 +9,10 @@ type FakeController struct {
 }
 
 // NewFakeController constructor
-func NewFakeController(name string, motorChannels uint) *FakeController {
+func NewFakeController() *FakeController {
 	return &FakeController{
-		name:   name,
-		motors: make([]float32, motorChannels),
+		name:   "Fake Controller",
+		motors: make([]float32, 2),
 	}
 }
 

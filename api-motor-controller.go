@@ -2,13 +2,13 @@ package main
 
 import "fmt"
 
-type MotorDesc struct {
-	ID    uint    `json:"id"`
-	Speed float32 `json:"speed"`
-}
-
 type MotorDescInput struct {
 	Speed float32 `form:"speed" json:"speed"`
+}
+
+type MotorDesc struct {
+	ID uint `json:"id"`
+	MotorDescInput
 }
 
 func motorDescGetOne(c IOController, id uint) (MotorDesc, error) {
@@ -18,8 +18,10 @@ func motorDescGetOne(c IOController, id uint) (MotorDesc, error) {
 
 	speed, err := c.GetMotorSpeed(id)
 	return MotorDesc{
-		ID:    id,
-		Speed: speed,
+		ID: id,
+		MotorDescInput: MotorDescInput{
+			Speed: speed,
+		},
 	}, err
 }
 

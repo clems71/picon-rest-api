@@ -5,6 +5,7 @@ import (
 
 	"github.com/fvbock/endless"
 	"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,6 +13,7 @@ import (
 type App struct {
 	Router     *gin.Engine
 	Controller IOController
+	// Camera     CameraFrameProvider
 }
 
 func main() {
@@ -25,7 +27,7 @@ func main() {
 			log.Panicln(err)
 		}
 	} else {
-		ioController = NewFakeController("Fake controller with 2 motor channels", 2)
+		ioController = NewFakeController()
 	}
 
 	app := &App{
@@ -36,9 +38,9 @@ func main() {
 	app.Router.Use(gin.Logger())
 	app.Router.Use(gin.ErrorLogger())
 	app.Router.Use(gin.Recovery())
+	app.Router.Use(static.Serve("/", static.LocalFile("./public", true)))
 	app.Router.Use(cors.Default())
 
-	apiBaseMount(app)
 	apiMotorMount(app)
 	apiCameraMount(app)
 
